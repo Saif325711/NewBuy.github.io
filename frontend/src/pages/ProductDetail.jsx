@@ -40,6 +40,15 @@ const ProductDetail = () => {
         setImageContainerSize({ width: rect.width, height: rect.height });
     };
 
+    const handleTouchMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const touch = e.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        setZoomPosition({ x, y });
+        setImageContainerSize({ width: rect.width, height: rect.height });
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0);
         const fetchProduct = async () => {
@@ -261,6 +270,9 @@ const ProductDetail = () => {
                                 onMouseEnter={() => setShowZoom(true)}
                                 onMouseLeave={() => setShowZoom(false)}
                                 onMouseMove={handleMouseMove}
+                                onTouchStart={() => setShowZoom(true)}
+                                onTouchEnd={() => setShowZoom(false)}
+                                onTouchMove={handleTouchMove}
                             >
                                 <img
                                     src={selectedImage || 'https://via.placeholder.com/600'}
