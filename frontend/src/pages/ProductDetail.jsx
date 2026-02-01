@@ -10,7 +10,7 @@ import ProductTicker from '../components/ProductTicker';
 const ProductDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { addToCart } = useContext(CartContext);
+    const { addToCart, isInCart } = useContext(CartContext);
     const { addToWishlist, removeFromWishlist, isInWishlist } = useContext(WishlistContext);
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -90,6 +90,14 @@ const ProductDetail = () => {
 
     const handleAddToCart = () => {
         if (!product) return;
+
+        // Check if product already in cart
+        if (isInCart(product._id, selectedSize, selectedColor)) {
+            // Navigate to cart
+            navigate('/cart');
+            return;
+        }
+
         addToCart(product, quantity, selectedSize, selectedColor);
         setAdded(true);
         setTimeout(() => setAdded(false), 2000);
@@ -310,17 +318,43 @@ const ProductDetail = () => {
                                     </div>
 
                                     <button
-                                        onClick={handleAddToCart}
+                                        onClick={() => {
+                                            if (isInCart(product._id, selectedSize, selectedColor)) {
+                                                navigate('/cart');
+                                            } else {
+                                                handleAddToCart();
+                                            }
+                                        }}
                                         className={`flex-1 flex items-center justify-center space-x-2 py-4 rounded-xl font-bold text-lg transition-all ${isOutOfStock
-                                            ? 'bg-slate-700 text-gray-500 cursor-not-allowed'
-                                            : added
-                                                ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
-                                                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-900/50'
+                                                ? 'bg-slate-700 text-gray-500 cursor-not-allowed'
+                                                : isInCart(product._id, selectedSize, selectedColor)
+                                                    ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
+                                                    : added
+                                                        ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
+                                                        : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-900/50'
                                             }`}
                                         disabled={isOutOfStock}
                                     >
-                                        <ShoppingCart size={20} />
-                                        <span>{isOutOfStock ? 'Out of Stock' : added ? 'Added!' : 'Add to Cart'}</span>
+                                        {isOutOfStock ? (
+                                            <>
+                                                <span>Out of Stock</span>
+                                            </>
+                                        ) : isInCart(product._id, selectedSize, selectedColor) ? (
+                                            <>
+                                                <ShoppingCart size={24} />
+                                                <span>Go to Cart</span>
+                                            </>
+                                        ) : added ? (
+                                            <>
+                                                <Check size={24} />
+                                                <span>Added!</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <ShoppingCart size={24} />
+                                                <span>Add to Cart</span>
+                                            </>
+                                        )}
                                     </button>
 
                                     <button

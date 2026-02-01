@@ -56,6 +56,10 @@ export const CartProvider = ({ children }) => {
         localStorage.removeItem('cartItems');
     }
 
+    const isInCart = (productId, size, color) => {
+        return cartItems.some((item) => item._id === productId && item.size === size && item.color === color);
+    };
+
     return (
         <CartContext.Provider value={{
             cartItems,
@@ -64,7 +68,8 @@ export const CartProvider = ({ children }) => {
             updateQty,
             shippingAddress,
             saveShippingAddress,
-            clearCart
+            clearCart,
+            isInCart
         }}>
             {children}
         </CartContext.Provider>
