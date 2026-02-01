@@ -309,8 +309,8 @@ const ProductDetail = () => {
                                     </>
                                 )}
 
-                                {/* Quantity & Actions */}
-                                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
+                                {/* Quantity & Actions - Hide on Mobile */}
+                                <div className="hidden md:flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
                                     <div className="flex items-center space-x-3 bg-gray-100 rounded-lg p-1 border border-gray-300 w-fit">
                                         <button
                                             onClick={() => handleQuantityChange('dec')}
@@ -453,10 +453,10 @@ const ProductDetail = () => {
                     }}
                     disabled={isOutOfStock}
                     className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all ${isOutOfStock
-                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : isInCart(product._id, selectedSize, selectedColor)
-                                ? 'bg-green-600 hover:bg-green-700 text-white'
-                                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : isInCart(product._id, selectedSize, selectedColor)
+                            ? 'bg-green-600 hover:bg-green-700 text-white'
+                            : 'bg-blue-600 hover:bg-blue-700 text-white'
                         }`}
                 >
                     <ShoppingCart size={20} />
@@ -467,8 +467,8 @@ const ProductDetail = () => {
                     onClick={handleBuyNow}
                     disabled={isOutOfStock}
                     className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all ${isOutOfStock
-                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : 'bg-orange-600 hover:bg-orange-700 text-white'
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : 'bg-orange-600 hover:bg-orange-700 text-white'
                         }`}
                 >
                     <Zap size={20} className="fill-current" />
