@@ -31,10 +31,10 @@ const Home = () => {
                     alt="NewBuy Streetwear Collection"
                     className="w-full h-auto object-cover object-top max-h-[700px]"
                 />
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:top-[75%] md:left-[25%] md:translate-x-0 md:translate-y-0">
+                <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 md:top-[75%] md:left-[25%] md:translate-x-0 md:bottom-auto">
                     <a
                         href="#latest-drops"
-                        className="bg-black border border-black text-white font-bold py-2 px-6 text-sm md:py-3 md:px-10 md:text-base rounded-full hover:bg-gray-900 transition-all transform hover:scale-105 shadow-xl whitespace-nowrap"
+                        className="bg-black border border-black text-white font-bold py-2 px-5 text-xs md:py-3 md:px-10 md:text-base rounded-full hover:bg-gray-900 transition-all transform hover:scale-105 shadow-xl whitespace-nowrap"
                     >
                         Shop Now
                     </a>
