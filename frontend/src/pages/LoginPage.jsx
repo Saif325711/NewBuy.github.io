@@ -142,8 +142,16 @@ const LoginPage = () => {
                                 />
                                 <span className="ml-2 text-sm text-gray-700">Remember me</span>
                             </label>
-                            <Link to="/forgot-password" className="text-sm text-blue-500 hover:text-blue-400">
+                            <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
                                 Forgot Password?
+                            </Link>
+                        </div>
+
+                        {/* Sign Up Link */}
+                        <div className="text-center text-sm text-gray-600 pt-4 border-t border-gray-200">
+                            Don't have an account?{' '}
+                            <Link to="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+                                Sign Up
                             </Link>
                         </div>
 
