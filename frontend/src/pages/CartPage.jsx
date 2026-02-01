@@ -69,7 +69,16 @@ const CartPage = () => {
                                         </button>
                                         <span className="font-bold w-6 text-center text-sm">{item.qty}</span>
                                         <button
-                                            onClick={() => updateQty(item._id, item.size, item.color, item.qty + 1)}
+                                            onClick={() => {
+                                                // Get max stock for this variant
+                                                const maxStock = item.variants?.find(v => v.size === item.size && v.color === item.color)?.stock || item.stock || item.countInStock || 999;
+
+                                                if (item.qty >= maxStock) {
+                                                    alert(`Only ${maxStock} items available in stock!`);
+                                                    return;
+                                                }
+                                                updateQty(item._id, item.size, item.color, item.qty + 1);
+                                            }}
                                             className="p-1 hover:text-blue-600"
                                         >
                                             <Plus size={16} />
