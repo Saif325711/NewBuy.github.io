@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { getProductById, getProductsByCategory } from '../services/productService';
-import { ShoppingCart, Heart, ChevronLeft, Minus, Plus, Share2, Zap, Check } from 'lucide-react';
+import { ShoppingCart, Heart, ChevronLeft, Minus, Plus, Share2, Zap, Check, X } from 'lucide-react';
 import CartContext from '../context/CartContext';
 import WishlistContext from '../context/WishlistContext';
 import ProductCard from '../components/ProductCard';
@@ -18,6 +18,7 @@ const ProductDetail = () => {
     const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [shareSuccess, setShareSuccess] = useState(false);
 
+
     // Selection State
     const [selectedImage, setSelectedImage] = useState('');
     const [selectedSize, setSelectedSize] = useState('');
@@ -27,6 +28,9 @@ const ProductDetail = () => {
     const [showZoom, setShowZoom] = useState(false);
     const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
     const [imageContainerSize, setImageContainerSize] = useState({ width: 1, height: 1 });
+    const [showSizeModal, setShowSizeModal] = useState(false);
+    const [modalAction, setModalAction] = useState(''); // 'cart' or 'buy'
+
 
     const handleMouseMove = (e) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -97,14 +101,17 @@ const ProductDetail = () => {
     const handleAddToCart = () => {
         if (!product) return;
 
-        // Validate size and color selection
+        // Check if product already in cart first
+        if (isInCart(product._id, selectedSize, selectedColor)) {
+            navigate('/cart');
+            return;
+        }
+
+        // Validate size and color selection - show modal instead of alert
         if (product.variants && product.variants.length > 0) {
-            if (!selectedSize) {
-                alert('Please select a size first!');
-                return;
-            }
-            if (!selectedColor) {
-                alert('Please select a color first!');
+            if (!selectedSize || !selectedColor) {
+                setModalAction('cart');
+                setShowSizeModal(true);
                 return;
             }
         }
@@ -113,13 +120,6 @@ const ProductDetail = () => {
         if (quantity > maxStock) {
             alert(`Only ${maxStock} items available in stock. Please reduce quantity.`);
             setQuantity(maxStock > 0 ? maxStock : 1);
-            return;
-        }
-
-        // Check if product already in cart
-        if (isInCart(product._id, selectedSize, selectedColor)) {
-            // Navigate to cart
-            navigate('/cart');
             return;
         }
 
@@ -132,14 +132,11 @@ const ProductDetail = () => {
     const handleBuyNow = () => {
         if (!product) return;
 
-        // Validate size and color selection
+        // Validate size and color selection - show modal instead of alert
         if (product.variants && product.variants.length > 0) {
-            if (!selectedSize) {
-                alert('Please select a size first!');
-                return;
-            }
-            if (!selectedColor) {
-                alert('Please select a color first!');
+            if (!selectedSize || !selectedColor) {
+                setModalAction('buy');
+                setShowSizeModal(true);
                 return;
             }
         }
@@ -215,6 +212,26 @@ const ProductDetail = () => {
     const currentVariant = product.variants?.find(v => v.size === selectedSize && v.color === selectedColor);
     const maxStock = product.variants?.length > 0 ? Math.max(...product.variants.map(v => v.stock || 0)) : (product.stock || 0);
     const isOutOfStock = maxStock === 0;
+
+    const handleModalContinue = () => {
+        // Validate selections in modal
+        if (!selectedSize || !selectedColor) {
+            alert('Please select both size and color!');
+            return;
+        }
+
+        setShowSizeModal(false);
+
+        // Proceed with the action
+        if (modalAction === 'cart') {
+            addToCart(product, quantity, selectedSize, selectedColor);
+            setAdded(true);
+            setTimeout(() => setAdded(false), 2000);
+        } else if (modalAction === 'buy') {
+            addToCart(product, quantity, selectedSize, selectedColor);
+            navigate('/checkout');
+        }
+    };
 
     return (
         <>
@@ -525,6 +542,100 @@ const ProductDetail = () => {
                     <span>Buy at ₹{product.price}</span>
                 </button>
             </div>
+
+            {/* Size Selection Modal (Flipkart-style) */}
+            {showSizeModal && (
+                <div className="fixed inset-0 bg-black/50 z-[100] flex items-end md:items-center justify-center">
+                    <div className="bg-white rounded-t-3xl md:rounded-2xl w-full md:max-w-lg max-h-[90vh] overflow-y-auto">
+                        {/* Modal Header */}
+                        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+                            <h3 className="text-lg font-bold text-slate-900">Select Size & Color</h3>
+                            <button
+                                onClick={() => setShowSizeModal(false)}
+                                className="p-2 hover:bg-gray-100 rounded-full"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+
+                        {/* Modal Content */}
+                        <div className="p-6 space-y-6">
+                            {/* Product Info */}
+                            <div className="flex items-center space-x-4">
+                                <img
+                                    src={product.image || (product.images && product.images[0])}
+                                    alt={product.name}
+                                    className="w-20 h-20 object-cover rounded-lg"
+                                />
+                                <div>
+                                    <h4 className="font-bold text-slate-900">{product.name}</h4>
+                                    <p className="text-xl font-bold text-blue-600">₹{product.price}</p>
+                                </div>
+                            </div>
+
+                            {/* Size Selection */}
+                            {product.variants && product.variants.length > 0 && (
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-900 mb-3">
+                                        Select Size {!selectedSize && <span className="text-red-500">*</span>}
+                                    </label>
+                                    <div className="flex flex-wrap gap-3">
+                                        {[...new Set(product.variants.map(v => v.size))].map((size) => (
+                                            <button
+                                                key={size}
+                                                onClick={() => setSelectedSize(size)}
+                                                className={`px-6 py-3 rounded-lg font-bold transition-all border-2 ${selectedSize === size
+                                                        ? 'bg-blue-600 text-white border-blue-600'
+                                                        : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
+                                                    }`}
+                                            >
+                                                {size}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Color Selection */}
+                            {product.variants && product.variants.length > 0 && (
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-900 mb-3">
+                                        Select Color {!selectedColor && <span className="text-red-500">*</span>}
+                                    </label>
+                                    <div className="flex flex-wrap gap-3">
+                                        {[...new Set(product.variants.map(v => v.color))].map((color) => (
+                                            <button
+                                                key={color}
+                                                onClick={() => setSelectedColor(color)}
+                                                className={`px-6 py-3 rounded-lg font-bold transition-all border-2 ${selectedColor === color
+                                                        ? 'bg-blue-600 text-white border-blue-600'
+                                                        : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
+                                                    }`}
+                                            >
+                                                {color}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Continue Button */}
+                            <button
+                                onClick={handleModalContinue}
+                                disabled={!selectedSize || !selectedColor}
+                                className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${selectedSize && selectedColor
+                                        ? modalAction === 'buy'
+                                            ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                                            : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    }`}
+                            >
+                                {modalAction === 'buy' ? 'Continue to Buy' : 'Add to Cart'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
