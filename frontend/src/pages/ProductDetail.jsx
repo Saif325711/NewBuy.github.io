@@ -93,8 +93,21 @@ const ProductDetail = () => {
         }
     };
 
+
     const handleAddToCart = () => {
         if (!product) return;
+
+        // Validate size and color selection
+        if (product.variants && product.variants.length > 0) {
+            if (!selectedSize) {
+                alert('Please select a size first!');
+                return;
+            }
+            if (!selectedColor) {
+                alert('Please select a color first!');
+                return;
+            }
+        }
 
         // Check stock availability
         if (quantity > maxStock) {
@@ -114,6 +127,7 @@ const ProductDetail = () => {
         setAdded(true);
         setTimeout(() => setAdded(false), 2000);
     };
+
 
     const handleBuyNow = () => {
         if (!product) return;
