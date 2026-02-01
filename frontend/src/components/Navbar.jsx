@@ -163,6 +163,25 @@ const Navbar = () => {
                         <a href="#women" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Women</a>
                         <a href="#accessories" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Accessories</a>
                     </div>
+                    <div className="flex justify-around items-center mt-2">
+                        <Link to="/cart" className="flex flex-col items-center text-xs text-gray-700 hover:text-blue-600">
+                            <ShoppingCart className="h-6 w-6" />
+                            Cart
+                            {cartItems.length > 0 && (
+                                <span className="absolute -top-1 -right-2 bg-blue-600 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
+                                    {cartItems.length}
+                                </span>
+                            )}
+                        </Link>
+                        <Link to="/wishlist" className="flex flex-col items-center text-xs text-gray-700 hover:text-pink-600">
+                            <Heart className="h-6 w-6" />
+                            Wishlist
+                        </Link>
+                        <Link to="/login" className="flex flex-col items-center text-xs text-gray-700 hover:text-slate-900">
+                            <User className="h-6 w-6" />
+                            Account
+                        </Link>
+                    </div>
                 </div>
             </div>
         </nav>

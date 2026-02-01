@@ -378,7 +378,7 @@ const ProductDetail = () => {
                                         disabled={isOutOfStock}
                                     >
                                         <Zap size={20} className="fill-current" />
-                                        <span>Buy Now</span>
+                                        <span>Buy at ₹{product.price}</span>
                                     </button>
 
                                     <button
