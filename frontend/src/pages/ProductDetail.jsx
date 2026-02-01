@@ -214,21 +214,28 @@ const ProductDetail = () => {
     const isOutOfStock = maxStock === 0;
 
     const handleModalContinue = () => {
-        // Validate selections in modal
-        if (!selectedSize || !selectedColor) {
-            alert('Please select both size and color!');
+        // Validate size selection only
+        if (!selectedSize) {
+            alert('Please select a size!');
             return;
+        }
+
+        // Auto-select first available color for the selected size if not already selected
+        let colorToUse = selectedColor;
+        if (!colorToUse && product.variants && product.variants.length > 0) {
+            colorToUse = product.variants.find(v => v.size === selectedSize)?.color;
+            setSelectedColor(colorToUse);
         }
 
         setShowSizeModal(false);
 
         // Proceed with the action
         if (modalAction === 'cart') {
-            addToCart(product, quantity, selectedSize, selectedColor);
+            addToCart(product, quantity, selectedSize, colorToUse);
             setAdded(true);
             setTimeout(() => setAdded(false), 2000);
         } else if (modalAction === 'buy') {
-            addToCart(product, quantity, selectedSize, selectedColor);
+            addToCart(product, quantity, selectedSize, colorToUse);
             navigate('/checkout');
         }
     };
@@ -602,8 +609,8 @@ const ProductDetail = () => {
                                 onClick={handleModalContinue}
                                 disabled={!selectedSize}
                                 className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${selectedSize
-                                        ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     }`}
                             >
                                 Continue
