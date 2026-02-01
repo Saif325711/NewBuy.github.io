@@ -147,14 +147,6 @@ const LoginPage = () => {
                             </Link>
                         </div>
 
-                        {/* Sign Up Link */}
-                        <div className="text-center text-sm text-gray-600 pt-4 border-t border-gray-200">
-                            Don't have an account?{' '}
-                            <Link to="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
-                                Sign Up
-                            </Link>
-                        </div>
-
                         {/* Submit Button */}
                         <button
                             type="submit"
@@ -202,8 +194,8 @@ const LoginPage = () => {
                     {/* Register Link */}
                     <p className="text-center text-gray-600 text-sm mt-6">
                         Don't have an account?{' '}
-                        <Link to="/register" className="text-blue-500 hover:text-blue-400 font-medium">
-                            Sign up
+                        <Link to="/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+                            Sign Up
                         </Link>
                     </p>
                 </div>
