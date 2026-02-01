@@ -233,7 +233,7 @@ const ProductDetail = () => {
         if (modalAction === 'cart') {
             addToCart(product, quantity, selectedSize, colorToUse);
             setAdded(true);
-            setTimeout(() => setAdded(false), 2000);
+            navigate('/cart');
         } else if (modalAction === 'buy') {
             addToCart(product, quantity, selectedSize, colorToUse);
             navigate('/checkout');
