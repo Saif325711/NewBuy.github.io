@@ -34,19 +34,36 @@ const ProductTicker = () => {
     const currentProduct = products[currentIndex];
 
     return (
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 sticky top-0 z-50 shadow-md">
+        <div className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white py-2.5 px-4 sticky top-0 z-50 shadow-lg">
             <div className="max-w-7xl mx-auto">
                 <Link
                     to={`/product/${currentProduct._id}`}
                     className="flex items-center justify-center space-x-3 hover:opacity-90 transition-opacity"
                 >
-                    <span className="text-xs font-semibold uppercase tracking-wide">🔥 Recommended:</span>
-                    <span className="text-sm font-bold animate-pulse">{currentProduct.name}</span>
-                    <span className="text-xs">•</span>
-                    <span className="text-sm font-semibold">₹{currentProduct.price}</span>
-                    {currentProduct.purchasePrice && (
-                        <span className="text-xs line-through text-white/70">₹{currentProduct.purchasePrice}</span>
-                    )}
+                    {/* Product Image */}
+                    <img
+                        src={currentProduct.images?.[0] || currentProduct.image}
+                        alt={currentProduct.name}
+                        className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-lg border-2 border-white shadow-md"
+                    />
+
+                    {/* Recommended Badge */}
+                    <span className="text-xs font-semibold uppercase tracking-wide bg-white/20 px-2 py-1 rounded">
+                        🔥 Hot Deal
+                    </span>
+
+                    {/* Product Name */}
+                    <span className="text-sm md:text-base font-bold truncate max-w-xs">{currentProduct.name}</span>
+
+                    {/* Price */}
+                    <div className="flex items-center space-x-2">
+                        <span className="text-sm md:text-lg font-bold bg-white text-pink-600 px-2 py-0.5 rounded">
+                            ₹{currentProduct.price}
+                        </span>
+                        {currentProduct.purchasePrice && (
+                            <span className="text-xs line-through text-white/70">₹{currentProduct.purchasePrice}</span>
+                        )}
+                    </div>
                 </Link>
             </div>
         </div>
