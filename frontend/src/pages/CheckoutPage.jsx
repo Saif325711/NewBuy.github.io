@@ -54,6 +54,14 @@ const CheckoutPage = () => {
             // 1. Create Order on Backend
             const { data: orderResponse } = await axios.post('/orders', orderData);
 
+            // Handle Cash on Delivery (COD)
+            if (paymentMethod === 'COD') {
+                alert('Order Placed Successfully via Cash on Delivery!');
+                clearCart();
+                navigate('/');
+                return;
+            }
+
             const rzpKey = orderResponse.razorpayKeyId || import.meta.env.VITE_RAZORPAY_KEY_ID;
             console.log('Using Razorpay Key:', rzpKey);
 
@@ -242,17 +250,18 @@ const CheckoutPage = () => {
                             </label>
 
                             {/* Add more methods later */}
-                            <label className={`flex items-center p-4 rounded-lg border cursor-pointer transition-all ${paymentMethod === 'COD' ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 opacity-50 cursor-not-allowed'}`}>
+                            <label className={`flex items-center p-4 rounded-lg border cursor-pointer transition-all ${paymentMethod === 'COD' ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}>
                                 <input
                                     type="radio"
                                     name="payment"
                                     value="COD"
-                                    disabled
+                                    checked={paymentMethod === 'COD'}
+                                    onChange={(e) => setPaymentMethod(e.target.value)}
                                     className="text-blue-600 focus:ring-blue-500 h-5 w-5 bg-white border-gray-600"
                                 />
                                 <div className="ml-4 flex-1">
                                     <span className="block font-bold">Cash on Delivery</span>
-                                    <span className="text-sm text-gray-600">Currently Unavailable</span>
+                                    <span className="text-sm text-gray-600">Pay with cash upon delivery</span>
                                 </div>
                                 <Truck className="text-gray-500" />
                             </label>
