@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from '../api/axios';
+import { getAllProducts } from '../services/productService';
 import ProductCard from '../components/ProductCard';
 import hoodieHero from '../assets/hoodie.png';
 
@@ -10,8 +10,8 @@ const Home = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const { data } = await axios.get('/products');
-                setProducts(data.products);
+                const data = await getAllProducts();
+                setProducts(data);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching products:", error);

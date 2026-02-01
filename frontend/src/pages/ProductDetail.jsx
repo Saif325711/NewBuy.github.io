@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import axios from '../api/axios';
+import { getProductById, getProductsByCategory } from '../services/productService';
 import { ShoppingCart, Heart, ChevronLeft, Minus, Plus, Share2, Zap, Check } from 'lucide-react';
 import CartContext from '../context/CartContext';
 import WishlistContext from '../context/WishlistContext';
@@ -68,9 +68,9 @@ const ProductDetail = () => {
 
     const fetchRecommendedProducts = async (category, currentProductId) => {
         try {
-            const { data } = await axios.get('/products');
-            const related = data.products
-                .filter(p => p.category === category && p._id !== currentProductId)
+            const allProducts = await getProductsByCategory(category);
+            const related = allProducts
+                .filter(p => p._id !== currentProductId)
                 .slice(0, 4); // Get top 4 related products
             setRecommendedProducts(related);
         } catch (error) {
