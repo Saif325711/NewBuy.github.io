@@ -60,7 +60,7 @@ const Home = () => {
                                         <span className="bg-gray-100 px-4 py-1 rounded-lg border border-gray-300">{categoryName}</span>
                                         <span className="ml-4 h-px bg-gray-300 flex-grow"></span>
                                     </h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                                         {categoryProducts.map((product) => (
                                             <ProductCard key={product._id} product={product} />
                                         ))}
@@ -71,7 +71,7 @@ const Home = () => {
 
                         {/* Fallback if no products have categories yet */}
                         {products.every(p => !p.category) && products.length > 0 && (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                                 {products.map((product) => (
                                     <ProductCard key={product._id} product={product} />
                                 ))}
