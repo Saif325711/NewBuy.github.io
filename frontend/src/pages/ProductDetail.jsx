@@ -224,8 +224,22 @@ const ProductDetail = () => {
                                     />
                                 )}
 
+                                {/* Wishlist Button in Corner */}
+                                <button
+                                    onClick={handleToggleWishlist}
+                                    className={`absolute top-4 right-4 p-3 rounded-full shadow-lg transition-all z-10 ${isInWishlist(product._id)
+                                        ? 'bg-pink-600 text-white'
+                                        : 'bg-white/90 backdrop-blur text-gray-700 hover:bg-pink-50'
+                                        }`}
+                                >
+                                    <Heart
+                                        size={24}
+                                        className={isInWishlist(product._id) ? 'fill-current' : ''}
+                                    />
+                                </button>
+
                                 {isOutOfStock && (
-                                    <div className="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full font-bold text-sm">
+                                    <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full font-bold text-sm">
                                         Out of Stock
                                     </div>
                                 )}
@@ -452,11 +466,11 @@ const ProductDetail = () => {
                         }
                     }}
                     disabled={isOutOfStock}
-                    className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all ${isOutOfStock
-                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all border-2 ${isOutOfStock
+                        ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
                         : isInCart(product._id, selectedSize, selectedColor)
-                            ? 'bg-green-600 hover:bg-green-700 text-white'
-                            : 'bg-blue-600 hover:bg-blue-700 text-white'
+                            ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'
+                            : 'bg-white hover:bg-gray-50 text-blue-600 border-blue-600'
                         }`}
                 >
                     <ShoppingCart size={20} />
