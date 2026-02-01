@@ -121,6 +121,15 @@ const ProductDetail = () => {
         navigate('/checkout');
     };
 
+    const handleToggleWishlist = () => {
+        if (!product) return;
+        if (isInWishlist(product._id)) {
+            removeFromWishlist(product._id);
+        } else {
+            addToWishlist(product);
+        }
+    };
+
     const handleShare = async () => {
         const shareData = {
             title: product.name,
