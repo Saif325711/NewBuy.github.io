@@ -561,7 +561,7 @@ const ProductDetail = () => {
                     <div className="bg-white rounded-t-3xl md:rounded-2xl w-full md:max-w-lg max-h-[90vh] overflow-y-auto">
                         {/* Modal Header */}
                         <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between">
-                            <h3 className="text-lg font-bold text-slate-900">Select Size & Color</h3>
+                            <h3 className="text-lg font-bold text-slate-900">Select Size</h3>
                             <button
                                 onClick={() => setShowSizeModal(false)}
                                 className="p-2 hover:bg-gray-100 rounded-full"
@@ -572,31 +572,19 @@ const ProductDetail = () => {
 
                         {/* Modal Content */}
                         <div className="p-6 space-y-6">
-                            {/* Product Info */}
-                            <div className="flex items-center space-x-4">
-                                <img
-                                    src={product.image || (product.images && product.images[0])}
-                                    alt={product.name}
-                                    className="w-20 h-20 object-cover rounded-lg"
-                                />
-                                <div>
-                                    <h4 className="font-bold text-slate-900">{product.name}</h4>
-                                    <p className="text-xl font-bold text-blue-600">₹{product.price}</p>
-                                </div>
-                            </div>
 
                             {/* Size Selection */}
                             {product.variants && product.variants.length > 0 && (
                                 <div>
                                     <label className="block text-sm font-bold text-slate-900 mb-3">
-                                        Select Size {!selectedSize && <span className="text-red-500">*</span>}
+                                        Choose Size {!selectedSize && <span className="text-red-500">*</span>}
                                     </label>
-                                    <div className="flex flex-wrap gap-3">
+                                    <div className="grid grid-cols-3 gap-3">
                                         {[...new Set(product.variants.map(v => v.size))].map((size) => (
                                             <button
                                                 key={size}
                                                 onClick={() => setSelectedSize(size)}
-                                                className={`px-6 py-3 rounded-lg font-bold transition-all border-2 ${selectedSize === size
+                                                className={`py-4 rounded-lg font-bold text-lg transition-all border-2 ${selectedSize === size
                                                     ? 'bg-blue-600 text-white border-blue-600'
                                                     : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
                                                     }`}
@@ -608,41 +596,17 @@ const ProductDetail = () => {
                                 </div>
                             )}
 
-                            {/* Color Selection */}
-                            {product.variants && product.variants.length > 0 && (
-                                <div>
-                                    <label className="block text-sm font-bold text-slate-900 mb-3">
-                                        Select Color {!selectedColor && <span className="text-red-500">*</span>}
-                                    </label>
-                                    <div className="flex flex-wrap gap-3">
-                                        {[...new Set(product.variants.map(v => v.color))].map((color) => (
-                                            <button
-                                                key={color}
-                                                onClick={() => setSelectedColor(color)}
-                                                className={`px-6 py-3 rounded-lg font-bold transition-all border-2 ${selectedColor === color
-                                                    ? 'bg-blue-600 text-white border-blue-600'
-                                                    : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
-                                                    }`}
-                                            >
-                                                {color}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
 
                             {/* Continue Button */}
                             <button
                                 onClick={handleModalContinue}
-                                disabled={!selectedSize || !selectedColor}
-                                className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${selectedSize && selectedColor
-                                    ? modalAction === 'buy'
-                                        ? 'bg-orange-600 hover:bg-orange-700 text-white'
-                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
-                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                disabled={!selectedSize}
+                                className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${selectedSize
+                                        ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     }`}
                             >
-                                {modalAction === 'buy' ? 'Continue to Buy' : 'Add to Cart'}
+                                Continue
                             </button>
                         </div>
                     </div>
