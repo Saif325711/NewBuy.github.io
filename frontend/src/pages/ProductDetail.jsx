@@ -440,6 +440,41 @@ const ProductDetail = () => {
 
                 </div>
             </div>
+
+            {/* Mobile Sticky Bottom Bar (Flipkart-style) */}
+            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 p-3 flex items-center space-x-3 z-50 shadow-lg">
+                <button
+                    onClick={() => {
+                        if (isInCart(product._id, selectedSize, selectedColor)) {
+                            navigate('/cart');
+                        } else {
+                            handleAddToCart();
+                        }
+                    }}
+                    disabled={isOutOfStock}
+                    className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all ${isOutOfStock
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            : isInCart(product._id, selectedSize, selectedColor)
+                                ? 'bg-green-600 hover:bg-green-700 text-white'
+                                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                        }`}
+                >
+                    <ShoppingCart size={20} />
+                    <span>{isOutOfStock ? 'Out of Stock' : isInCart(product._id, selectedSize, selectedColor) ? 'Go to Cart' : 'Add to Cart'}</span>
+                </button>
+
+                <button
+                    onClick={handleBuyNow}
+                    disabled={isOutOfStock}
+                    className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all ${isOutOfStock
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            : 'bg-orange-600 hover:bg-orange-700 text-white'
+                        }`}
+                >
+                    <Zap size={20} className="fill-current" />
+                    <span>Buy at ₹{product.price}</span>
+                </button>
+            </div>
         </>
     );
 };

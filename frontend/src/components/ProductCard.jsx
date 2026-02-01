@@ -1,25 +1,7 @@
-
 import { ShoppingCart } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import CartContext from '../context/CartContext';
-
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
-    const { addToCart } = useContext(CartContext);
-    const navigate = useNavigate();
-
-    const handleAddToCart = (e) => {
-        e.preventDefault();
-        addToCart(product, 1);
-    };
-
-    const handleBuyNow = (e) => {
-        e.preventDefault();
-        addToCart(product, 1);
-        navigate('/cart');
-    };
-
     return (
         <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200 hover:border-gray-400 transition-all group">
             <Link to={`/product/${product._id}`}>
@@ -41,19 +23,10 @@ const ProductCard = ({ product }) => {
                         {product.category || 'Collection'}
                     </div>
                     <h3 className="text-slate-900 font-bold text-lg mb-2 truncate hover:text-blue-600 transition-colors">{product.name}</h3>
-                    <div className="flex items-center justify-between mt-4 gap-2">
+                    <div className="flex items-center justify-between mt-4">
                         <span className="text-xl font-bold text-slate-900">₹{product.price}</span>
-                        <button
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-full transition-colors flex items-center justify-center text-xs font-semibold"
-                            onClick={handleAddToCart}
-                        >
-                            <ShoppingCart size={16} className="mr-1" /> Add to Cart
-                        </button>
-                        <button
-                            className="bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded-full transition-colors flex items-center justify-center text-xs font-semibold"
-                            onClick={handleBuyNow}
-                        >
-                            Buy at ₹{product.price}
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-colors flex items-center justify-center">
+                            <ShoppingCart size={18} />
                         </button>
                     </div>
                 </div>
