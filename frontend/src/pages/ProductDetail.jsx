@@ -117,6 +117,19 @@ const ProductDetail = () => {
 
     const handleBuyNow = () => {
         if (!product) return;
+
+        // Validate size and color selection
+        if (product.variants && product.variants.length > 0) {
+            if (!selectedSize) {
+                alert('Please select a size first!');
+                return;
+            }
+            if (!selectedColor) {
+                alert('Please select a color first!');
+                return;
+            }
+        }
+
         addToCart(product, quantity, selectedSize, selectedColor);
         navigate('/checkout');
     };
@@ -478,7 +491,7 @@ const ProductDetail = () => {
                     className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all border-2 ${isOutOfStock
                         ? 'bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed'
                         : isInCart(product._id, selectedSize, selectedColor)
-                            ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'
+                            ? 'bg-white hover:bg-gray-50 text-green-600 border-green-600'
                             : 'bg-white hover:bg-gray-50 text-blue-600 border-blue-600'
                         }`}
                 >
