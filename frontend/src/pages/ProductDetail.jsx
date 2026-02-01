@@ -39,7 +39,7 @@ const ProductDetail = () => {
         window.scrollTo(0, 0);
         const fetchProduct = async () => {
             try {
-                const { data } = await axios.get(`/products/${id}`);
+                const data = await getProductById(id);
                 setProduct(data);
 
                 // Set defaults
@@ -59,6 +59,7 @@ const ProductDetail = () => {
                 // Fetch recommended products from same category
                 fetchRecommendedProducts(data.category, data._id);
             } catch (err) {
+                console.error('ProductDetail Error:', err);
                 setError('Failed to load product details.');
                 setLoading(false);
             }
