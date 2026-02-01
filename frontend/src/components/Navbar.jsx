@@ -156,12 +156,12 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Navigation Links */}
-                <div className="md:hidden border-t border-gray-200 pt-2 pb-3">
+                <div className="md:hidden border-t border-gray-200 pt-1 pb-1">
                     <div className="flex justify-around items-center">
-                        <Link to="/" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-2">Home</Link>
-                        <a href="#men" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-2">Men</a>
-                        <a href="#women" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-2">Women</a>
-                        <a href="#accessories" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-2">Accessories</a>
+                        <Link to="/" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Home</Link>
+                        <a href="#men" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Men</a>
+                        <a href="#women" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Women</a>
+                        <a href="#accessories" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Accessories</a>
                     </div>
                 </div>
             </div>
