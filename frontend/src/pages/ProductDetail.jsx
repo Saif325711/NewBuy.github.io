@@ -512,7 +512,11 @@ const ProductDetail = () => {
             <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 p-3 flex items-center space-x-3 z-50 shadow-lg">
                 <button
                     onClick={() => {
-                        if (isInCart(product._id, selectedSize, selectedColor)) {
+                        // On mobile, always show modal if product has variants
+                        if (product.variants && product.variants.length > 0) {
+                            setModalAction('cart');
+                            setShowSizeModal(true);
+                        } else if (isInCart(product._id, selectedSize, selectedColor)) {
                             navigate('/cart');
                         } else {
                             handleAddToCart();
@@ -531,7 +535,15 @@ const ProductDetail = () => {
                 </button>
 
                 <button
-                    onClick={handleBuyNow}
+                    onClick={() => {
+                        // On mobile, always show modal if product has variants
+                        if (product.variants && product.variants.length > 0) {
+                            setModalAction('buy');
+                            setShowSizeModal(true);
+                        } else {
+                            handleBuyNow();
+                        }
+                    }}
                     disabled={isOutOfStock}
                     className={`flex-1 flex items-center justify-center space-x-2 py-3 rounded-lg font-bold transition-all ${isOutOfStock
                         ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
@@ -585,8 +597,8 @@ const ProductDetail = () => {
                                                 key={size}
                                                 onClick={() => setSelectedSize(size)}
                                                 className={`px-6 py-3 rounded-lg font-bold transition-all border-2 ${selectedSize === size
-                                                        ? 'bg-blue-600 text-white border-blue-600'
-                                                        : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
+                                                    ? 'bg-blue-600 text-white border-blue-600'
+                                                    : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
                                                     }`}
                                             >
                                                 {size}
@@ -608,8 +620,8 @@ const ProductDetail = () => {
                                                 key={color}
                                                 onClick={() => setSelectedColor(color)}
                                                 className={`px-6 py-3 rounded-lg font-bold transition-all border-2 ${selectedColor === color
-                                                        ? 'bg-blue-600 text-white border-blue-600'
-                                                        : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
+                                                    ? 'bg-blue-600 text-white border-blue-600'
+                                                    : 'bg-white text-slate-900 border-gray-300 hover:border-blue-600'
                                                     }`}
                                             >
                                                 {color}
@@ -624,10 +636,10 @@ const ProductDetail = () => {
                                 onClick={handleModalContinue}
                                 disabled={!selectedSize || !selectedColor}
                                 className={`w-full py-4 rounded-lg font-bold text-lg transition-all ${selectedSize && selectedColor
-                                        ? modalAction === 'buy'
-                                            ? 'bg-orange-600 hover:bg-orange-700 text-white'
-                                            : 'bg-blue-600 hover:bg-blue-700 text-white'
-                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    ? modalAction === 'buy'
+                                        ? 'bg-orange-600 hover:bg-orange-700 text-white'
+                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                     }`}
                             >
                                 {modalAction === 'buy' ? 'Continue to Buy' : 'Add to Cart'}
