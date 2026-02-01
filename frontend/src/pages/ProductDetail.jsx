@@ -82,6 +82,11 @@ const ProductDetail = () => {
 
     const handleQuantityChange = (type) => {
         if (type === 'inc') {
+            if (quantity >= maxStock) {
+                // Show popup when trying to exceed stock
+                alert(`Only ${maxStock} items available in stock!`);
+                return;
+            }
             setQuantity(prev => prev + 1);
         } else {
             setQuantity(prev => (prev > 1 ? prev - 1 : 1));
@@ -90,6 +95,13 @@ const ProductDetail = () => {
 
     const handleAddToCart = () => {
         if (!product) return;
+
+        // Check stock availability
+        if (quantity > maxStock) {
+            alert(`Only ${maxStock} items available in stock. Please reduce quantity.`);
+            setQuantity(maxStock > 0 ? maxStock : 1);
+            return;
+        }
 
         // Check if product already in cart
         if (isInCart(product._id, selectedSize, selectedColor)) {
@@ -326,12 +338,12 @@ const ProductDetail = () => {
                                             }
                                         }}
                                         className={`flex-1 flex items-center justify-center space-x-2 py-4 rounded-xl font-bold text-lg transition-all ${isOutOfStock
-                                                ? 'bg-slate-700 text-gray-500 cursor-not-allowed'
-                                                : isInCart(product._id, selectedSize, selectedColor)
+                                            ? 'bg-slate-700 text-gray-500 cursor-not-allowed'
+                                            : isInCart(product._id, selectedSize, selectedColor)
+                                                ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
+                                                : added
                                                     ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
-                                                    : added
-                                                        ? 'bg-green-600 hover:bg-green-700 text-white shadow-lg'
-                                                        : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-900/50'
+                                                    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-900/50'
                                             }`}
                                         disabled={isOutOfStock}
                                     >
