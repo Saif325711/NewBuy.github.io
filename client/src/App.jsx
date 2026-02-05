@@ -9,6 +9,7 @@ import OrderDetails from './pages/OrderDetails';
 import OrderCreate from './pages/OrderCreate';
 import CustomerList from './pages/CustomerList';
 import Settings from './pages/Settings';
+import Invoice from './pages/Invoice';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import { AuthProvider } from './context/AuthContext';
@@ -77,6 +78,8 @@ function App() {
                 <Settings />
               </Layout>
             } />
+
+            <Route path="/orders/:id/invoice" element={<Invoice />} />
           </Route>
         </Routes>
       </AuthProvider>

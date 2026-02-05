@@ -14,6 +14,7 @@ const ProductEdit = () => {
     const [image, setImage] = useState('');
 
     // Categorization
+    const [parentCategory, setParentCategory] = useState('Men');
     const [category, setCategory] = useState('T-shirt');
     const [subCategory, setSubCategory] = useState('');
     const [brand, setBrand] = useState('');
@@ -36,9 +37,13 @@ const ProductEdit = () => {
 
     const CATEGORY_DATA = {
         'T-shirt': ['Oversized', 'Round Neck', 'V-Neck', 'Polo', 'Slim Fit', 'Full Sleeve'],
+        'Shirt': ['Casual', 'Formal', 'Half Sleeve', 'Full Sleeve', 'Denim'],
         'Hoodie': ['Pullover', 'Zip-up', 'Oversized', 'Fleece', 'Printed'],
         'Sweatshirts': ['Crew Neck', 'Drop Shoulder', 'Fleece', 'Regular'],
-        'Pants': ['Jeans', 'Chinos', 'Cargo', 'Joggers', 'Formal', 'Shorts'],
+        'Panjabi': ['Traditional', 'Modern', 'Embroidered', 'Cotton', 'Silk'],
+        'Shorts': ['Casual', 'Sports', 'Denim', 'Cargo', 'Bermuda'],
+        'Baggy Pants': ['Cargo', 'Joggers', 'Street Style', 'Denim'],
+        'Pants': ['Jeans', 'Chinos', 'Cargo', 'Joggers', 'Formal'],
         'Accessories': ['Hats', 'Socks', 'Belts', 'Bags', 'Wallets']
     };
 
@@ -63,6 +68,7 @@ const ProductEdit = () => {
                     setPrice(data.price);
                     setPurchasePrice(data.purchasePrice || 0);
                     setImage(data.images && data.images[0] ? data.images[0] : (data.image || ''));
+                    setParentCategory(data.parentCategory || 'Men');
                     setCategory(data.category || 'T-shirt');
                     setSubCategory(data.subCategory || '');
                     setBrand(data.brand || '');
@@ -104,6 +110,7 @@ const ProductEdit = () => {
             price: Number(price),
             purchasePrice: Number(purchasePrice),
             image,
+            parentCategory,
             category,
             subCategory,
             brand,
@@ -261,6 +268,15 @@ const ProductEdit = () => {
                         <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
                             <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Organization</h3>
                             <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Parent Category</label>
+                                    <select value={parentCategory} onChange={(e) => setParentCategory(e.target.value)} className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-2">
+                                        <option value="Men">Men</option>
+                                        <option value="Women">Women</option>
+                                        <option value="Kids">Kids</option>
+                                        <option value="Accessories">Accessories</option>
+                                    </select>
+                                </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
                                     <select value={category} onChange={(e) => setCategory(e.target.value)} className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-2">

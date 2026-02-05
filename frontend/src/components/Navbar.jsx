@@ -150,18 +150,18 @@ const Navbar = () => {
                 {/* Desktop Navigation Links */}
                 <div className="hidden md:flex justify-center items-center space-x-8 pb-3 border-t border-gray-100 pt-2">
                     <Link to="/" className="text-gray-700 hover:text-slate-900 font-medium transition-colors text-sm">Home</Link>
-                    <a href="#men" className="text-gray-700 hover:text-slate-900 font-medium transition-colors text-sm">Men</a>
-                    <a href="#women" className="text-gray-700 hover:text-slate-900 font-medium transition-colors text-sm">Women</a>
-                    <a href="#accessories" className="text-gray-700 hover:text-slate-900 font-medium transition-colors text-sm">Accessories</a>
+                    <Link to="/category/men" className="text-gray-700 hover:text-slate-900 font-medium transition-colors text-sm">Men</Link>
+                    <Link to="/category/women" className="text-gray-700 hover:text-slate-900 font-medium transition-colors text-sm">Women</Link>
+                    <Link to="/category/accessories" className="text-gray-700 hover:text-slate-900 font-medium transition-colors text-sm">Accessories</Link>
                 </div>
 
                 {/* Mobile Navigation Links */}
                 <div className="md:hidden border-t border-gray-200 pt-1 pb-1">
                     <div className="flex justify-around items-center">
                         <Link to="/" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Home</Link>
-                        <a href="#men" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Men</a>
-                        <a href="#women" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Women</a>
-                        <a href="#accessories" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Accessories</a>
+                        <Link to="/category/men" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Men</Link>
+                        <Link to="/category/women" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Women</Link>
+                        <Link to="/category/accessories" className="text-xs font-medium text-gray-700 hover:text-slate-900 transition-colors py-1.5">Accessories</Link>
                     </div>
                 </div>
             </div>

@@ -39,18 +39,76 @@ const ProductList = () => {
         }
     };
 
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState('');
+
+    const handleCreateCategory = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('/categories', { name: newCategoryName });
+            alert('Category Created Successfully');
+            setShowCategoryModal(false);
+            setNewCategoryName('');
+        } catch (err) {
+            alert(err.response?.data?.message || 'Failed to create category');
+        }
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
-                <Link
-                    to="/products/new"
-                    className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                >
-                    <Plus size={20} className="mr-2" />
-                    Add Product
-                </Link>
+                <div className="flex space-x-4">
+                    <button
+                        onClick={() => setShowCategoryModal(true)}
+                        className="flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                    >
+                        <Plus size={20} className="mr-2" />
+                        New Category
+                    </button>
+                    <Link
+                        to="/products/new"
+                        className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                    >
+                        <Plus size={20} className="mr-2" />
+                        Add Product
+                    </Link>
+                </div>
             </div>
+
+            {/* Category Modal */}
+            {showCategoryModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-96 shadow-xl">
+                        <h2 className="text-xl font-bold mb-4 dark:text-white">Add New Category</h2>
+                        <form onSubmit={handleCreateCategory}>
+                            <input
+                                type="text"
+                                className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 mb-4 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Category Name"
+                                value={newCategoryName}
+                                onChange={(e) => setNewCategoryName(e.target.value)}
+                                required
+                            />
+                            <div className="flex justify-end space-x-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCategoryModal(false)}
+                                    className="px-4 py-2 text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                >
+                                    Create
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
                 <div className="overflow-x-auto">

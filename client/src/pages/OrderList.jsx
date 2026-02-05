@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from '../api/axios';
-import { Eye, XCircle, CheckCircle, Plus } from 'lucide-react';
+import { Eye, XCircle, CheckCircle, Plus, FileText } from 'lucide-react';
 
 const OrderList = () => {
     const [orders, setOrders] = useState([]);
@@ -95,8 +95,11 @@ const OrderList = () => {
                                             )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <Link to={`/orders/${order._id}`} className="text-blue-600 hover:text-blue-900 dark:hover:text-blue-400">
+                                            <Link to={`/orders/${order._id}`} className="text-blue-600 hover:text-blue-900 dark:hover:text-blue-400 mr-3">
                                                 <Eye size={18} />
+                                            </Link>
+                                            <Link to={`/orders/${order._id}/invoice`} className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200" title="View Invoice">
+                                                <FileText size={18} />
                                             </Link>
                                         </td>
                                     </tr>

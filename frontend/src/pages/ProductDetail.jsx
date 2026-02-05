@@ -516,10 +516,15 @@ const ProductDetail = () => {
                             <h2 className="text-2xl font-bold text-slate-900 mb-8 border-l-4 border-blue-600 pl-4">
                                 You May Also Like
                             </h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                                {recommendedProducts.map((recommendedProduct) => (
-                                    <ProductCard key={recommendedProduct._id} product={recommendedProduct} />
-                                ))}
+                            {/* Horizontal Scrolling Container */}
+                            <div className="relative">
+                                <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide hover:scrollbar-default scroll-smooth">
+                                    {recommendedProducts.map((recommendedProduct) => (
+                                        <div key={recommendedProduct._id} className="flex-shrink-0 w-64 snap-start">
+                                            <ProductCard product={recommendedProduct} />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     )}

@@ -1,34 +1,27 @@
-const mongoose = require('mongoose');
+const db = require('../config/db');
 
-const categorySchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    slug: {
-        type: String,
-        unique: true,
-        lowercase: true,
-    },
-    parent: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        default: null, // If null, it's a root category
-    },
-    image: {
-        type: String,
-    },
-    isActive: {
-        type: Boolean,
-        default: true,
+class Category {
+    constructor(data) {
+        Object.assign(this, data);
     }
-}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } });
 
-categorySchema.virtual('children', {
-    ref: 'Category',
-    localField: '_id',
-    foreignField: 'parent',
-});
+    static async find() {
+        const snapshot = await db.collection('categories').get();
+        return snapshot.docs.map(doc => ({ _id: doc.id, ...doc.data() }));
+    }
 
-module.exports = mongoose.model('Category', categorySchema);
+    static async create(data) {
+        const res = await db.collection('categories').add({
+            ...data,
+            createdAt: new Date().toISOString()
+        });
+        return { _id: res.id, ...data };
+    }
+
+    static async delete(id) {
+        await db.collection('categories').doc(id).delete();
+        return true;
+    }
+}
+
+module.exports = Category;

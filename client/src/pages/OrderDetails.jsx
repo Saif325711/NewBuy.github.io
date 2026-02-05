@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from '../api/axios';
-import { ChevronLeft, Truck } from 'lucide-react';
+import { ChevronLeft, Truck, FileText } from 'lucide-react';
 
 const OrderDetails = () => {
     const { id } = useParams();
@@ -46,6 +46,10 @@ const OrderDetails = () => {
 
             <div className="flex justify-between items-start">
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Order {order._id}</h1>
+                <Link to={`/orders/${id}/invoice`} className="bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white px-4 py-2 rounded-md flex items-center transition-colors">
+                    <FileText size={18} className="mr-2" />
+                    Print Invoice
+                </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

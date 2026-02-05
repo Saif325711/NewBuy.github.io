@@ -74,6 +74,25 @@ const addOrderItems = async (req, res) => {
     }
 };
 
+
+// @desc    Get order by ID
+// @route   GET /api/orders/:id
+// @access  Private
+const getOrderById = async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id);
+
+        if (order) {
+            res.json(order);
+        } else {
+            res.status(404).json({ message: 'Order not found' });
+        }
+    } catch (error) {
+        console.error('Get Order By ID Failed:', error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // @desc    Update order to paid
 // @route   PUT /api/orders/:id/pay
 // @access  Private
@@ -105,7 +124,34 @@ const updateOrderToPaid = async (req, res) => {
     }
 };
 
+// @desc    Get logged in user orders
+// @route   GET /api/orders/myorders
+// @access  Private
+const getMyOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({ user: req.user._id });
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get all orders
+// @route   GET /api/orders
+// @access  Private/Admin
+const getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find({});
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     addOrderItems,
+    getOrderById,
     updateOrderToPaid,
+    getMyOrders,
+    getOrders,
 };
