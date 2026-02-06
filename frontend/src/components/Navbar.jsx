@@ -1,66 +1,15 @@
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Search, User, Heart } from 'lucide-react';
 import CartContext from '../context/CartContext';
 import WishlistContext from '../context/WishlistContext';
-import { getAllProducts } from '../services/productService';
 
 const Navbar = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [showSearchResults, setShowSearchResults] = useState(false);
     const { cartItems } = useContext(CartContext);
     const { wishlistItems } = useContext(WishlistContext);
     const navigate = useNavigate();
-    const searchRef = useRef(null);
 
-    // Close search when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setShowSearchResults(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
 
-    // Search products using Firestore
-    useEffect(() => {
-        const searchProducts = async () => {
-            if (searchQuery.trim().length === 0) {
-                setSearchResults([]);
-                setShowSearchResults(false);
-                return;
-            }
-
-            setIsLoading(true);
-            try {
-                const products = await getAllProducts();
-                const filtered = products.filter(product =>
-                    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.brand?.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-                setSearchResults(filtered.slice(0, 5)); // Limit to 5 results
-                setShowSearchResults(true);
-            } catch (error) {
-                console.error('Search error:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        const debounceTimer = setTimeout(searchProducts, 300);
-        return () => clearTimeout(debounceTimer);
-    }, [searchQuery]);
-
-    const handleProductClick = (productId) => {
-        setShowSearchResults(false);
-        setSearchQuery('');
-        navigate(`/product/${productId}`);
-    };
 
     return (
         <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -74,51 +23,15 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    {/* Search Box (All Devices) */}
-                    <div className="flex-1 max-w-md" ref={searchRef}>
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onFocus={() => searchQuery && setShowSearchResults(true)}
-                                placeholder="Search..."
-                                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                            />
-                            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                        </div>
-
-                        {/* Search Results Dropdown */}
-                        {showSearchResults && (
-                            <div className="absolute left-4 right-4 md:left-auto md:right-auto md:w-96 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-y-auto z-50">
-                                {isLoading ? (
-                                    <div className="p-4 text-center text-gray-500">Searching...</div>
-                                ) : searchResults.length > 0 ? (
-                                    <div>
-                                        {searchResults.map(product => (
-                                            <div
-                                                key={product._id}
-                                                onClick={() => handleProductClick(product._id)}
-                                                className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0"
-                                            >
-                                                <img
-                                                    src={product.images?.[0] || product.image}
-                                                    alt={product.name}
-                                                    className="w-12 h-12 object-cover rounded"
-                                                />
-                                                <div className="ml-3 flex-1">
-                                                    <p className="text-sm font-medium text-gray-900">{product.name}</p>
-                                                    <p className="text-xs text-gray-500">{product.category}</p>
-                                                </div>
-                                                <p className="text-sm font-semibold text-slate-900">₹{product.price}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="p-4 text-center text-gray-500">No products found</div>
-                                )}
-                            </div>
-                        )}
+                    {/* Search Icon */}
+                    <div className="flex-1 flex justify-center">
+                        <button
+                            onClick={() => navigate('/search')}
+                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                            aria-label="Search Products"
+                        >
+                            <Search className="h-6 w-6 text-gray-600" />
+                        </button>
                     </div>
 
                     {/* Icons */}

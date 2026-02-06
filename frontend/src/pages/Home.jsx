@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../services/productService';
 import ProductCard from '../components/ProductCard';
-import hoodieHero from '../assets/hoodie.png';
+import hoodieImage from '../assets/hooddie.webp';
 import baggyImage from '../assets/baggy.jpg';
 import tshirtImage from '../assets/blacktshirt.jpeg';
 import panjabiImage from '../assets/panjabi.jpg';
@@ -12,22 +13,21 @@ import shirtImage from '../assets/strip.jpg';
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     // Fixed category configuration with images
     const categories = [
         { name: 'T-Shirt', image: tshirtImage, id: 't-shirt' },
         { name: 'Shirt', image: shirtImage, id: 'shirt' },
+        { name: 'Hoodie', image: hoodieImage, id: 'hoodie' },
         { name: 'Baggy Pants', image: baggyImage, id: 'baggy-pants' },
         { name: 'Short', image: shortImage, id: 'short' },
         { name: 'Panjabi', image: panjabiImage, id: 'panjabi' }
     ];
 
     const handleCategoryClick = (categoryName) => {
-        // Scroll to the category section
-        const element = document.getElementById(`category-${categoryName}`);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+        // Navigate to category page with the category name
+        navigate(`/category/${categoryName.toLowerCase().replace(/ /g, '-')}`);
     };
 
     useEffect(() => {

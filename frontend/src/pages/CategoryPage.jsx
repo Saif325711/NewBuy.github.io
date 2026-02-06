@@ -15,6 +15,9 @@ const CategoryPage = () => {
             try {
                 const allProducts = await getAllProducts();
 
+                // Convert URL format (with hyphens) to normal format (with spaces)
+                const normalizedCategory = category.replace(/-/g, ' ');
+
                 // Define parent categories and their subcategories
                 const menCategories = ['T-Shirt', 'Shirt', 'Baggy Pants', 'Short', 'Shorts', 'Panjabi', 'Hoodie', 'Sweatshirts', 'Pants'];
                 const womenCategories = ['Women T-Shirt', 'Women Shirt', 'Dress', 'Skirt', 'Women Pants'];
@@ -22,23 +25,29 @@ const CategoryPage = () => {
                 let filtered;
 
                 // Handle parent categories
-                if (category.toLowerCase() === 'men') {
+                if (normalizedCategory.toLowerCase() === 'men') {
                     filtered = allProducts.filter(product =>
                         menCategories.some(cat =>
                             product.category?.toLowerCase() === cat.toLowerCase()
                         )
                     );
-                } else if (category.toLowerCase() === 'women') {
+                } else if (normalizedCategory.toLowerCase() === 'women') {
                     filtered = allProducts.filter(product =>
                         womenCategories.some(cat =>
                             product.category?.toLowerCase() === cat.toLowerCase()
                         )
                     );
                 } else {
-                    // Filter products by exact category match (case-insensitive)
-                    filtered = allProducts.filter(product =>
-                        product.category?.toLowerCase() === category.toLowerCase()
-                    );
+                    // Filter products by category match (handle both "t-shirt" and "t shirt" formats)
+                    filtered = allProducts.filter(product => {
+                        const productCat = product.category?.toLowerCase() || '';
+                        const urlCat = category.toLowerCase();
+                        // Compare with hyphenated version (e.g., "t-shirt")
+                        const matchesHyphen = productCat === urlCat;
+                        // Compare with spaced version (e.g., "t shirt")
+                        const matchesSpace = productCat.replace(/-/g, ' ') === urlCat.replace(/-/g, ' ');
+                        return matchesHyphen || matchesSpace;
+                    });
                 }
 
                 setProducts(filtered);
@@ -52,7 +61,11 @@ const CategoryPage = () => {
         fetchProducts();
     }, [category]);
 
-    const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
+    // Convert URL format to proper title format (e.g., "baggy-pants" → "Baggy Pants")
+    const categoryTitle = category
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
 
     return (
         <div className="min-h-screen bg-white pt-6 pb-20">
