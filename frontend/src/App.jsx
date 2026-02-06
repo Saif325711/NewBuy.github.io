@@ -14,6 +14,7 @@ import SearchPage from './pages/SearchPage';
 import InvoicePage from './pages/InvoicePage';
 import AdminOrdersPage from './pages/AdminOrdersPage';
 import { WishlistProvider } from './context/WishlistContext';
+import { AuthProvider } from './context/AuthContext';
 
 function AppContent() {
   const location = useLocation();
@@ -48,9 +49,11 @@ function AppContent() {
 function App() {
   return (
     <WishlistProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <AuthProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </AuthProvider>
     </WishlistProvider>
   );
 }

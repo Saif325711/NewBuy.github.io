@@ -1,13 +1,16 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Search, User, Heart } from 'lucide-react';
+import { ShoppingCart, Search, User, Heart, LogOut } from 'lucide-react';
 import CartContext from '../context/CartContext';
 import WishlistContext from '../context/WishlistContext';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const { cartItems } = useContext(CartContext);
     const { wishlistItems } = useContext(WishlistContext);
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [showUserMenu, setShowUserMenu] = useState(false);
 
 
 
@@ -45,9 +48,51 @@ const Navbar = () => {
                             )}
                         </Link>
 
-                        <Link to="/login" className="text-gray-700 hover:text-slate-900">
-                            <User className="h-5 w-5 md:h-6 md:w-6" />
-                        </Link>
+
+
+                        <div className="relative">
+                            {user ? (
+                                <button
+                                    onClick={() => setShowUserMenu(!showUserMenu)}
+                                    className="flex items-center space-x-1 text-gray-700 hover:text-slate-900 focus:outline-none"
+                                >
+                                    <User className="h-5 w-5 md:h-6 md:w-6" />
+                                </button>
+                            ) : (
+                                <Link to="/login" className="text-gray-700 hover:text-slate-900">
+                                    <User className="h-5 w-5 md:h-6 md:w-6" />
+                                </Link>
+                            )}
+
+                            {/* User Dropdown */}
+                            {showUserMenu && user && (
+                                <>
+                                    <div
+                                        className="fixed inset-0 z-40"
+                                        onClick={() => setShowUserMenu(false)}
+                                    ></div>
+                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50 animate-fade-in">
+                                        <div className="px-4 py-3 border-b border-gray-100">
+                                            <p className="text-sm text-gray-500">Signed in as</p>
+                                            <p className="text-sm font-bold text-slate-900 truncate">{user.name}</p>
+                                            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                logout();
+                                                setShowUserMenu(false);
+                                                alert("Logout successful");
+                                                navigate('/');
+                                            }}
+                                            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center space-x-2"
+                                        >
+                                            <LogOut size={16} />
+                                            <span>Logout</span>
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
 
                         <Link to="/cart" className="text-gray-700 hover:text-slate-900 relative">
                             <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" />
@@ -78,7 +123,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 };
 

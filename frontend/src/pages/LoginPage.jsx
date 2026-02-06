@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ShoppingBag } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const LoginPage = () => {
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const validateForm = () => {
         const newErrors = {};
@@ -47,10 +49,14 @@ const LoginPage = () => {
             await new Promise(resolve => setTimeout(resolve, 1500));
 
             console.log('Login attempt:', { email, password });
-            alert('Login functionality will be connected to backend soon!');
+
+            // Set dummy token and user info to simulate login
+            const nameFromEmail = email.split('@')[0];
+            const properName = nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
+            login({ email, name: properName }, 'demo_token_12345');
 
             // Navigate to home after successful login
-            // navigate('/');
+            navigate('/');
         } catch (error) {
             setErrors({ general: 'Invalid email or password' });
         } finally {

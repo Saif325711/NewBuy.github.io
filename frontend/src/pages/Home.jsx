@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from '../services/productService';
 import ProductCard from '../components/ProductCard';
 import hoodieImage from '../assets/hooddie.webp';
+import hoodieHero from '../assets/hoodie.png';
 import baggyImage from '../assets/baggy.jpg';
 import tshirtImage from '../assets/blacktshirt.jpeg';
 import panjabiImage from '../assets/panjabi.jpg';

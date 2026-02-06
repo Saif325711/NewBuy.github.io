@@ -1,7 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { getProductById, getProductsByCategory } from '../services/productService';
-import { ShoppingCart, Heart, ChevronLeft, Minus, Plus, Share2, Zap, Check, X } from 'lucide-react';
+import {
+    Star, ShoppingCart, Heart, Share2, ShieldCheck, Truck, RotateCcw,
+    ChevronDown, ChevronUp, ChevronRight, ChevronLeft, Check, X, LogIn, Lock,
+    Zap, Minus, Plus
+} from 'lucide-react';
 import CartContext from '../context/CartContext';
 import WishlistContext from '../context/WishlistContext';
 import ProductCard from '../components/ProductCard';
@@ -21,7 +25,6 @@ const ProductDetail = () => {
 
     // Selection State
     const [selectedImage, setSelectedImage] = useState('');
-    const [selectedSize, setSelectedSize] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [added, setAdded] = useState(false);
@@ -29,7 +32,9 @@ const ProductDetail = () => {
     const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
     const [imageContainerSize, setImageContainerSize] = useState({ width: 1, height: 1 });
     const [showSizeModal, setShowSizeModal] = useState(false);
-    const [modalAction, setModalAction] = useState(''); // 'cart' or 'buy'
+    const [selectedSize, setSelectedSize] = useState('');
+    const [modalAction, setModalAction] = useState('cart'); // 'cart' or 'buy'
+    const [showLoginModal, setShowLoginModal] = useState(false);
 
 
     const handleMouseMove = (e) => {
@@ -107,7 +112,19 @@ const ProductDetail = () => {
     };
 
 
+    const checkLogin = () => {
+        const token = localStorage.getItem('userToken');
+        if (!token) {
+            setShowLoginModal(true);
+            return false;
+        }
+        return true;
+    };
+
     const handleAddToCart = () => {
+        // First check logic
+        if (!checkLogin()) return;
+
         if (!product) return;
 
         // Check if product already in cart first
@@ -127,7 +144,7 @@ const ProductDetail = () => {
 
         // Check stock availability
         if (quantity > maxStock) {
-            alert(`Only ${maxStock} items available in stock. Please reduce quantity.`);
+            alert(`Only ${maxStock} items available in stock.Please reduce quantity.`);
             setQuantity(maxStock > 0 ? maxStock : 1);
             return;
         }
@@ -139,6 +156,9 @@ const ProductDetail = () => {
 
 
     const handleBuyNow = () => {
+        // First check logic
+        if (!checkLogin()) return;
+
         if (!product) return;
 
         // Validate size and color selection - show modal instead of alert
@@ -285,12 +305,12 @@ const ProductDetail = () => {
                                     <div
                                         className="absolute w-60 h-60 rounded-full overflow-hidden pointer-events-none shadow-2xl"
                                         style={{
-                                            left: `${zoomPosition.x}px`,
-                                            top: `${zoomPosition.y}px`,
+                                            left: `${zoomPosition.x} px`,
+                                            top: `${zoomPosition.y} px`,
                                             transform: 'translate(-50%, -50%)',
                                             backgroundImage: `url(${selectedImage || 'https://via.placeholder.com/600'})`,
                                             backgroundSize: '800% 800%',
-                                            backgroundPosition: `${(zoomPosition.x / imageContainerSize.width) * 100}% ${(zoomPosition.y / imageContainerSize.height) * 100}%`,
+                                            backgroundPosition: `${(zoomPosition.x / imageContainerSize.width) * 100}% ${(zoomPosition.y / imageContainerSize.height) * 100}% `,
                                             backgroundRepeat: 'no-repeat'
                                         }}
                                     />
@@ -324,7 +344,7 @@ const ProductDetail = () => {
                                         onClick={() => setSelectedImage(img)}
                                         className={`w-20 h-20 rounded-lg overflow-hidden border-2 flex-shrink-0 ${selectedImage === img ? 'border-blue-600' : 'border-gray-300 hover:border-gray-400'}`}
                                     >
-                                        <img src={img} alt={`View ${idx}`} className="w-full h-full object-cover" />
+                                        <img src={img} alt={`View ${idx} `} className="w-full h-full object-cover" />
                                     </button>
                                 ))}
                             </div>
@@ -632,6 +652,45 @@ const ProductDetail = () => {
                             >
                                 Continue
                             </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Login Required Modal */}
+            {showLoginModal && (
+                <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 transition-opacity animate-fade-in">
+                    <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl transform scale-100 transition-transform animate-scale-up overflow-hidden">
+                        {/* Header with gradient */}
+                        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-center text-white">
+                            <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 backdrop-blur-sm">
+                                <Lock size={32} className="text-white" />
+                            </div>
+                            <h3 className="text-xl font-bold">Login Required</h3>
+                            <p className="text-blue-100 text-sm mt-1">Please login to continue</p>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6">
+                            <p className="text-gray-600 text-center mb-6">
+                                You need to be logged in to add items to your cart or make a purchase.
+                            </p>
+
+                            <div className="space-y-3">
+                                <button
+                                    onClick={() => navigate('/login')}
+                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl flex items-center justify-center space-x-2 transition-all shadow-lg shadow-blue-500/30"
+                                >
+                                    <LogIn size={20} />
+                                    <span>Login Now</span>
+                                </button>
+                                <button
+                                    onClick={() => setShowLoginModal(false)}
+                                    className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-colors"
+                                >
+                                    Maybe Later
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
