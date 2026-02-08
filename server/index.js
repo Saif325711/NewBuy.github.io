@@ -31,6 +31,13 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Local Development
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+// Export for Cloud Functions
+const functions = require('firebase-functions');
+exports.api = functions.https.onRequest(app);
