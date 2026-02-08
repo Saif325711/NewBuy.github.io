@@ -9,7 +9,7 @@ client/node_modules/
 .env.local
 .env.production
 .env.development
-server/.env
+# server/.env
 frontend/.env
 
 # Firebase credentials

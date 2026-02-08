@@ -38,6 +38,6 @@ if (require.main === module) {
     });
 }
 
-// Export for Cloud Functions
+// Export for Cloud Functions (V1)
 const functions = require('firebase-functions');
 exports.api = functions.https.onRequest(app);
