@@ -11,31 +11,36 @@ const generateToken = (id) => {
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    try {
+        const { name, email, password } = req.body;
 
-    const userExists = await User.findOne({ email });
+        const userExists = await User.findOne({ email });
 
-    if (userExists) {
-        return res.status(400).json({ message: 'User already exists' });
-    }
+        if (userExists) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
 
-    const user = new User({
-        name,
-        email,
-        password,
-    });
-    await user.save();
-
-    if (user) {
-        res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id),
+        const user = new User({
+            name,
+            email,
+            password,
         });
-    } else {
-        res.status(400).json({ message: 'Invalid user data' });
+        await user.save();
+
+        if (user) {
+            res.status(201).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                token: generateToken(user._id),
+            });
+        } else {
+            res.status(400).json({ message: 'Invalid user data' });
+        }
+    } catch (error) {
+        console.error('Register Error:', error);
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -43,32 +48,37 @@ const registerUser = async (req, res) => {
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res) => {
-    const { email, password } = req.body;
-    console.log(`Login attempt for: ${email}`);
+    try {
+        const { email, password } = req.body;
+        console.log(`Login attempt for: ${email}`);
 
-    const user = await User.findOne({ email });
+        const user = await User.findOne({ email });
 
-    if (!user) {
-        console.log('User not found');
-        return res.status(401).json({ message: 'Invalid email or password' });
-    }
+        if (!user) {
+            console.log('User not found');
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
 
-    console.log('User found:', user.email);
-    console.log('Stored hashed password:', user.password);
+        console.log('User found:', user.email);
+        // console.log('Stored hashed password:', user.password); // Security: Don't log passwords
 
-    const isMatch = await user.matchPassword(password);
-    console.log('Password match result:', isMatch);
+        const isMatch = await user.matchPassword(password);
+        console.log('Password match result:', isMatch);
 
-    if (isMatch) {
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id),
-        });
-    } else {
-        res.status(401).json({ message: 'Invalid email or password' });
+        if (isMatch) {
+            res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                token: generateToken(user._id),
+            });
+        } else {
+            res.status(401).json({ message: 'Invalid email or password' });
+        }
+    } catch (error) {
+        console.error('Login Error:', error);
+        res.status(500).json({ message: error.message });
     }
 };
 
