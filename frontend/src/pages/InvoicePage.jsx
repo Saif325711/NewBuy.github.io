@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../api/axios';
 
 const InvoicePage = () => {
     const { id } = useParams();
@@ -20,7 +20,7 @@ const InvoicePage = () => {
                 };
 
                 // Adjust URL if needed based on your backend structure
-                const { data } = await axios.get(`http://localhost:5000/api/orders/${id}`, config);
+                const { data } = await axios.get(`/api/orders/${id}`, config);
                 setOrder(data);
                 setLoading(false);
             } catch (err) {
