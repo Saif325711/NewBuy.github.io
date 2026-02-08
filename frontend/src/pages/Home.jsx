@@ -52,7 +52,7 @@ const Home = () => {
             <div className="relative w-full">
                 <img
                     src={hoodieHero}
-                    alt="NewBuy Streetwear Collection"
+                    alt="SaiFlex Streetwear Collection"
                     className="w-full h-auto object-cover object-top max-h-[700px]"
                 />
                 <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 md:top-[75%] md:left-[25%] md:translate-x-0 md:bottom-auto">

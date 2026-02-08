@@ -50,7 +50,7 @@ const InvoicePage = () => {
                         <p className="text-gray-500 mt-1">#{order._id}</p>
                     </div>
                     <div className="text-right">
-                        <h2 className="text-xl font-semibold text-gray-700">NewBuy</h2>
+                        <h2 className="text-xl font-semibold text-gray-700">SaiFlex</h2>
                         <p className="text-gray-500 text-sm mt-1">
                             123 E-Commerce St.<br />
                             Tech City, TC 90210<br />
@@ -138,7 +138,7 @@ const InvoicePage = () => {
 
                 {/* Footer for Print */}
                 <div className="hidden print:block text-center mt-10 pt-8 border-t border-gray-200">
-                    <p className="text-gray-500 text-sm">Thank you for shopping with NewBuy!</p>
+                    <p className="text-gray-500 text-sm">Thank you for shopping with SaiFlex!</p>
                 </div>
             </div>
         </div>

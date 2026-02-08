@@ -84,7 +84,7 @@ const CheckoutPage = () => {
                 key: rzpKey,
                 amount: Math.round(orderResponse.totalPrice * 100), // Ensure integer
                 currency: "INR",
-                name: "NewBuy Streetwear",
+                name: "SaiFlex Streetwear",
                 description: "Transaction",
                 image: "/images/logo.png",
                 order_id: orderResponse.razorpayOrderId,
@@ -111,7 +111,7 @@ const CheckoutPage = () => {
                     }
                 },
                 prefill: {
-                    name: "NewBuy User",
+                    name: "SaiFlex User",
                     email: "user@example.com",
                     contact: mobile || "9999999999"
                 },

@@ -11,21 +11,23 @@ const ContactPage = () => {
                     <div className="bg-blue-50 p-6 rounded-lg text-center">
                         <Phone className="w-8 h-8 mx-auto text-blue-600 mb-4" />
                         <h3 className="font-semibold text-lg mb-2">Phone</h3>
-                        <p className="text-gray-600">+91 60033 59534</p>
-                        <p className="text-gray-600">+91 60027 32572 (WhatsApp)</p>
+                        <a href="tel:+916003359534" className="block text-gray-600 hover:text-blue-600 mb-1">+91 60033 59534</a>
+                        <a href="https://wa.me/916002732572" target="_blank" rel="noopener noreferrer" className="block text-gray-600 hover:text-green-600">+91 60027 32572 (WhatsApp)</a>
                     </div>
                     <div className="bg-blue-50 p-6 rounded-lg text-center">
                         <Mail className="w-8 h-8 mx-auto text-blue-600 mb-4" />
                         <h3 className="font-semibold text-lg mb-2">Email</h3>
-                        <p className="text-gray-600">saifulislam.786452@gmail.com</p>
+                        <a href="mailto:saifulislam.786452@gmail.com" className="text-gray-600 hover:text-blue-600">saifulislam.786452@gmail.com</a>
                     </div>
                 </div>
 
                 <div className="bg-gray-50 p-6 rounded-lg text-center mb-8">
                     <MapPin className="w-8 h-8 mx-auto text-blue-600 mb-4" />
                     <h3 className="font-semibold text-lg mb-2">Address</h3>
-                    <p className="text-gray-600">House No. 14, Niribili Path, Birckuchi, Narengi</p>
-                    <p className="text-gray-600">Guwahati, Assam, India</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=House+No.+14,+Niribili+Path,+Birckuchi,+Narengi,+Guwahati,+Assam,+India" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors block">
+                        <p className="text-gray-600">House No. 14, Niribili Path, Birckuchi, Narengi</p>
+                        <p className="text-gray-600">Guwahati, Assam, India</p>
+                    </a>
                 </div>
 
                 <form className="space-y-4">

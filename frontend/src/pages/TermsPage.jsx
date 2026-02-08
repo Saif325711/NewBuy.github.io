@@ -9,7 +9,7 @@ const TermsPage = () => {
                 <section className="mb-6">
                     <h2 className="text-xl font-semibold mb-2">1. Overview</h2>
                     <p className="text-gray-700">
-                        This website is operated by NewBuy. Throughout the site, the terms "we", "us" and "our" refer to NewBuy. By visiting our site and/or purchasing something from us, you engage in our "Service" and agree to be bound by the following terms and conditions.
+                        This website is operated by SaiFlex. Throughout the site, the terms "we", "us" and "our" refer to SaiFlex. By visiting our site and/or purchasing something from us, you engage in our "Service" and agree to be bound by the following terms and conditions.
                     </p>
                 </section>
 

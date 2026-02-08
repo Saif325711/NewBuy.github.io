@@ -186,7 +186,7 @@ const ProductDetail = () => {
     const handleShare = async () => {
         const shareData = {
             title: product.name,
-            text: `Check out ${product.name} on NewBuy!`,
+            text: `Check out ${product.name} on SaiFlex!`,
             url: window.location.href
         };
 

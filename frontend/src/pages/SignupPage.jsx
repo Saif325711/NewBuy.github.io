@@ -75,7 +75,7 @@ const SignupPage = () => {
                         <h1 className="text-3xl font-bold text-slate-900 mb-2">
                             Create Account
                         </h1>
-                        <p className="text-gray-600">Join NewBuy today</p>
+                        <p className="text-gray-600">Join SaiFlex today</p>
                     </div>
 
                     {/* Error Message */}

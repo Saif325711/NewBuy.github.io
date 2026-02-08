@@ -9,7 +9,7 @@ const ShippingPage = () => {
                 <section className="mb-8">
                     <h2 className="text-xl font-semibold mb-4 text-blue-600">Shipping Policy</h2>
                     <p className="mb-4 text-gray-700">
-                        At NewBuy, we strive to deliver your orders as quickly and efficiently as possible.
+                        At SaiFlex, we strive to deliver your orders as quickly and efficiently as possible.
                     </p>
                     <ul className="list-disc pl-5 space-y-2 text-gray-700">
                         <li><strong>Processing Time:</strong> All orders are processed within 1-2 business days.</li>

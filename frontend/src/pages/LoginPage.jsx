@@ -59,7 +59,7 @@ const LoginPage = () => {
                 <div className="text-center mb-8">
                     <Link to="/" className="inline-flex items-center space-x-2 text-3xl font-bold">
                         <ShoppingBag className="text-blue-500" size={32} />
-                        <span className="text-slate-900">NEW<span className="text-blue-500">BUY</span></span>
+                        <span className="text-slate-900">Sai<span className="text-blue-500">Flex</span></span>
                     </Link>
                     <p className="text-gray-600 mt-2">Welcome back! Please login to your account.</p>
                 </div>

@@ -11,7 +11,7 @@ const Footer = () => {
                     {/* About Section */}
                     <div>
                         <h3 className="text-white text-lg font-bold mb-4">
-                            NEW<span className="text-blue-500">BUY</span>
+                            Sai<span className="text-blue-500">Flex</span>
                         </h3>
                         <p className="text-sm text-gray-400 mb-4">
                             Your one-stop destination for premium fashion. Quality products at affordable prices.
@@ -77,7 +77,9 @@ const Footer = () => {
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start">
                                 <MapPin size={18} className="mr-2 mt-0.5 flex-shrink-0" />
-                                <span>House No. 14, Niribili Path, Birckuchi, Narengi</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=House+No.+14,+Niribili+Path,+Birckuchi,+Narengi,+Guwahati,+Assam,+India" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors text-left">
+                                    <span>House No. 14, Niribili Path, Birckuchi, Narengi</span>
+                                </a>
                             </li>
                             <li className="flex items-center">
                                 <Phone size={18} className="mr-2 flex-shrink-0" />
@@ -126,7 +128,7 @@ const Footer = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="md:flex md:items-center md:justify-between">
                         <div className="text-sm text-gray-400 text-center md:text-left">
-                            © {new Date().getFullYear()} NewBuy. All rights reserved.
+                            © {new Date().getFullYear()} SaiFlex. All rights reserved.
                         </div>
                         <div className="mt-4 md:mt-0">
                             <ul className="flex justify-center md:justify-end space-x-6 text-sm">
