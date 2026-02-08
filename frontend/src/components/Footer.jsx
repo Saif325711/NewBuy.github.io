@@ -6,7 +6,7 @@ const Footer = () => {
         <footer className="bg-slate-900 text-gray-300">
             {/* Main Footer Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
 
                     {/* About Section */}
                     <div>
@@ -77,21 +77,46 @@ const Footer = () => {
                         <ul className="space-y-3 text-sm">
                             <li className="flex items-start">
                                 <MapPin size={18} className="mr-2 mt-0.5 flex-shrink-0" />
-                                <span>123 Fashion Street, New Delhi, India - 110001</span>
+                                <span>House No. 14, Niribili Path, Birckuchi, Narengi</span>
                             </li>
                             <li className="flex items-center">
                                 <Phone size={18} className="mr-2 flex-shrink-0" />
-                                <a href="tel:+919876543210" className="hover:text-white transition-colors">
-                                    +91 98765 43210
+                                <a href="tel:+916003359534" className="hover:text-white transition-colors">
+                                    +91 60033 59534
+                                </a>
+                            </li>
+                            <li className="flex items-center">
+                                <span className="mr-2 font-bold text-green-500 flex-shrink-0">WA</span>
+                                <a href="https://wa.me/916002732572" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                                    +91 60027 32572
                                 </a>
                             </li>
                             <li className="flex items-center">
                                 <Mail size={18} className="mr-2 flex-shrink-0" />
-                                <a href="mailto:support@newbuy.com" className="hover:text-white transition-colors">
-                                    support@newbuy.com
+                                <a href="mailto:saifulislam.786452@gmail.com" className="hover:text-white transition-colors">
+                                    saifulislam.786452@gmail.com
                                 </a>
                             </li>
                         </ul>
+                    </div>
+
+                    {/* We Accept */}
+                    <div>
+                        <h4 className="text-white font-semibold mb-4">We Accept</h4>
+                        <div className="flex flex-wrap gap-4">
+                            <div className="bg-white h-8 w-12 flex items-center justify-center rounded overflow-hidden">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" className="h-full object-contain p-1" />
+                            </div>
+                            <div className="bg-white h-8 w-12 flex items-center justify-center rounded overflow-hidden">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="MasterCard" className="h-full object-contain p-1" />
+                            </div>
+                            <div className="bg-white h-8 w-12 flex items-center justify-center rounded overflow-hidden">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Rupay-Logo.png/1024px-Rupay-Logo.png" alt="RuPay" className="h-full object-contain p-1" />
+                            </div>
+                            <div className="bg-white h-8 w-12 flex items-center justify-center rounded overflow-hidden">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI" className="h-full object-contain p-1" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

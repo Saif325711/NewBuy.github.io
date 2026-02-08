@@ -13,6 +13,12 @@ import CategoryPage from './pages/CategoryPage';
 import SearchPage from './pages/SearchPage';
 import InvoicePage from './pages/InvoicePage';
 import AdminOrdersPage from './pages/AdminOrdersPage';
+import ShippingPage from './pages/ShippingPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import FAQPage from './pages/FAQPage';
+import TermsPage from './pages/TermsPage';
 import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
 import AdminRoute from './components/AdminRoute';
@@ -38,8 +44,15 @@ function AppContent() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
 
-          {/* Protected Admin Route */}
+          <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/terms" element={<TermsPage />} />
           <Route path="/admin/orders" element={
             <AdminRoute>
               <AdminOrdersPage />

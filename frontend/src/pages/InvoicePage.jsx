@@ -54,7 +54,7 @@ const InvoicePage = () => {
                         <p className="text-gray-500 text-sm mt-1">
                             123 E-Commerce St.<br />
                             Tech City, TC 90210<br />
-                            support@newbuy.com
+                            saifulislam.786452@gmail.com
                         </p>
                     </div>
                 </div>
