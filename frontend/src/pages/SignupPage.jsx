@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, ArrowLeft } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const SignupPage = () => {
     const navigate = useNavigate();
+    const { register } = useAuth();
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -43,20 +46,12 @@ const SignupPage = () => {
         setLoading(true);
 
         try {
-            // TODO: Replace with actual API call
-            // const response = await axios.post('/api/auth/register', {
-            //     name: formData.name,
-            //     email: formData.email,
-            //     password: formData.password
-            // });
+            await register(formData.name, formData.email, formData.password);
 
-            // For now, just simulate success
-            setTimeout(() => {
-                alert('Account created successfully! Please login.');
-                navigate('/login');
-            }, 1000);
+            // Register usually logs in automatically in AuthContext based on response token
+            navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to create account');
+            setError(err.message || 'Failed to create account');
             setLoading(false);
         }
     };

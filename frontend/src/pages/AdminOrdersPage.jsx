@@ -1,34 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const AdminOrdersPage = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const userInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null;
-
-                if (!userInfo || userInfo.role !== 'admin') {
-                    // For now, if not admin, maybe redirect or show error? 
-                    // Ignoring strict check for demo purposes or enforcing it:
-                    if (!userInfo) {
-                        navigate('/login');
-                        return;
-                    }
-                }
-
                 const config = {
                     headers: {
-                        Authorization: `Bearer ${userInfo.token}`,
+                        Authorization: `Bearer ${user.token}`,
                     },
                 };
 
-                const { data } = await axios.get('http://localhost:5000/api/orders', config);
+                const { data } = await axios.get('/api/orders', config);
                 setOrders(data);
                 setLoading(false);
             } catch (err) {
@@ -37,8 +28,10 @@ const AdminOrdersPage = () => {
             }
         };
 
-        fetchOrders();
-    }, [navigate]);
+        if (user) {
+            fetchOrders();
+        }
+    }, [user, navigate]);
 
     if (loading) return <div className="p-8 text-center text-gray-600">Loading Orders...</div>;
     if (error) return <div className="p-8 text-center text-red-500">Error: {error}</div>;

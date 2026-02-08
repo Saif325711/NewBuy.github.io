@@ -108,7 +108,8 @@ const CheckoutPage = () => {
                         navigate('/');
                     } catch (err) {
                         console.error('Payment Verification Failed:', err);
-                        alert('Payment successful, but verification failed.');
+                        const msg = err.response?.data?.message || err.message || 'Payment successful, but verification failed.';
+                        alert(msg);
                     }
                 },
                 prefill: {
@@ -126,7 +127,8 @@ const CheckoutPage = () => {
 
         } catch (error) {
             console.error('Checkout Error:', error);
-            alert('Something went wrong. Please try again.');
+            const msg = error.response?.data?.message || error.message || 'Something went wrong. Please try again.';
+            alert(msg);
         }
     };
 

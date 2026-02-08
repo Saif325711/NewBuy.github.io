@@ -45,7 +45,7 @@ class Order {
         if (this._id) {
             const { _id, user, ...dataToSave } = this;
             // Ensure user is stored as ID string if it's an object
-            if (typeof this.user === 'object' && this.user._id) {
+            if (this.user && typeof this.user === 'object' && this.user._id) {
                 dataToSave.user = this.user._id;
             } else {
                 dataToSave.user = this.user;

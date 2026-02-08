@@ -15,6 +15,7 @@ import InvoicePage from './pages/InvoicePage';
 import AdminOrdersPage from './pages/AdminOrdersPage';
 import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
+import AdminRoute from './components/AdminRoute';
 
 function AppContent() {
   const location = useLocation();
@@ -37,7 +38,14 @@ function AppContent() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/admin/orders" element={<AdminOrdersPage />} />
+
+          {/* Protected Admin Route */}
+          <Route path="/admin/orders" element={
+            <AdminRoute>
+              <AdminOrdersPage />
+            </AdminRoute>
+          } />
+
           <Route path="/order/:id/invoice" element={<InvoicePage />} />
         </Routes>
       </main>

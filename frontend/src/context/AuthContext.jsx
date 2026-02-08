@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
+import { register as registerService, login as loginService, logout as logoutService } from '../services/authService';
 
 const AuthContext = createContext();
 
@@ -17,21 +18,20 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
-    const login = (userData, token) => {
-        // Save to localStorage
-        localStorage.setItem('userInfo', JSON.stringify(userData));
-        localStorage.setItem('userToken', token);
+    const login = async (email, password) => {
+        const data = await loginService({ email, password });
+        setUser(data);
+        return data;
+    };
 
-        // Update state
-        setUser(userData);
+    const register = async (name, email, password) => {
+        const data = await registerService({ name, email, password });
+        setUser(data);
+        return data;
     };
 
     const logout = () => {
-        // Clear localStorage
-        localStorage.removeItem('userInfo');
-        localStorage.removeItem('userToken');
-
-        // Update state
+        logoutService();
         setUser(null);
     };
 
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated, loading }}>
+        <AuthContext.Provider value={{ user, login, register, logout, isAuthenticated, loading }}>
             {children}
         </AuthContext.Provider>
     );

@@ -74,7 +74,7 @@ const OrderList = () => {
                                             {order.isPaid ? (
                                                 <span className="flex items-center text-green-500 text-sm">
                                                     <CheckCircle size={16} className="mr-1" /> Paid
-                                                    <span className="text-xs ml-1 text-gray-400">({order.paidAt?.substring(0, 10)})</span>
+                                                    <span className="text-xs ml-1 text-gray-400">({order.paidAt ? String(order.paidAt).substring(0, 10) : ''})</span>
                                                 </span>
                                             ) : (
                                                 <span className="flex items-center text-red-500 text-sm">

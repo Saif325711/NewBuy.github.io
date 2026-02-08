@@ -30,46 +30,51 @@ const addOrderItems = async (req, res) => {
         throw new Error('No order items');
         return;
     } else {
-        const order = await Order.create({
-            orderItems,
-            user: req.user ? req.user._id : 'Guest',
-            shippingAddress,
-            paymentMethod,
-            itemsPrice,
-            taxPrice,
-            shippingPrice,
-            totalPrice,
-            isPaid: false,
-            isDelivered: false,
-        });
-
-        // Razorpay Order Creation
-        const payment_capture = 1;
-        const currency = 'INR';
-        const options = {
-            amount: Math.round(totalPrice * 100), // Amount in paise
-            currency,
-            receipt: `${order._id}`,
-            payment_capture,
-        };
-
         try {
-            console.log('Creating Razorpay Order with Key:', key_id);
-            const response = await razorpay.orders.create(options);
-            console.log('Razorpay Order Created:', response.id);
+            const order = await Order.create({
+                orderItems,
+                user: req.user ? req.user._id : 'Guest',
+                shippingAddress,
+                paymentMethod,
+                itemsPrice,
+                taxPrice,
+                shippingPrice,
+                totalPrice,
+                isPaid: false,
+                isDelivered: false,
+            });
 
-            res.status(201).json({
-                ...order,
-                razorpayOrderId: response.id,
-                razorpayKeyId: key_id
-            });
+            // Razorpay Order Creation
+            const payment_capture = 1;
+            const currency = 'INR';
+            const options = {
+                amount: Math.round(totalPrice * 100), // Amount in paise
+                currency,
+                receipt: `${order._id}`,
+                payment_capture,
+            };
+
+            try {
+                console.log('Creating Razorpay Order with Key:', key_id);
+                const response = await razorpay.orders.create(options);
+                console.log('Razorpay Order Created:', response.id);
+
+                res.status(201).json({
+                    ...order,
+                    razorpayOrderId: response.id,
+                    razorpayKeyId: key_id
+                });
+            } catch (error) {
+                console.error("Razorpay Error:", error);
+                // Fallback for simulation/testing if keys are missing
+                res.status(201).json({
+                    ...order,
+                    razorpayOrderId: 'order_SIMULATED_' + Date.now()
+                });
+            }
         } catch (error) {
-            console.error("Razorpay Error:", error);
-            // Fallback for simulation/testing if keys are missing
-            res.status(201).json({
-                ...order,
-                razorpayOrderId: 'order_SIMULATED_' + Date.now()
-            });
+            console.error("Order Creation Error:", error);
+            res.status(500).json({ message: 'Order Creation Failed: ' + error.message });
         }
     }
 };

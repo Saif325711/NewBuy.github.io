@@ -41,24 +41,12 @@ const LoginPage = () => {
         setIsLoading(true);
 
         try {
-            // TODO: Replace with actual API call
-            // const { data } = await axios.post('/api/auth/login', { email, password });
-            // localStorage.setItem('userToken', data.token);
-
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            console.log('Login attempt:', { email, password });
-
-            // Set dummy token and user info to simulate login
-            const nameFromEmail = email.split('@')[0];
-            const properName = nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
-            login({ email, name: properName }, 'demo_token_12345');
-
+            await login(email, password);
             // Navigate to home after successful login
             navigate('/');
         } catch (error) {
-            setErrors({ general: 'Invalid email or password' });
+            console.error(error);
+            setErrors({ general: error.message || 'Invalid email or password' });
         } finally {
             setIsLoading(false);
         }
