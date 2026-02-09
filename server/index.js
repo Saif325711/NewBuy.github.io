@@ -21,11 +21,12 @@ const statsRoutes = require('./routes/statsRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/stats', statsRoutes);
-app.use('/api/categories', categoryRoutes);
+// Routes
+app.use('/auth', authRoutes);
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
+app.use('/stats', statsRoutes);
+app.use('/categories', categoryRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');
@@ -38,6 +39,6 @@ if (require.main === module) {
     });
 }
 
-// Export for Cloud Functions (V1)
-const functions = require('firebase-functions');
-exports.api = functions.https.onRequest(app);
+// Export for Cloud Functions (V2)
+const { onRequest } = require('firebase-functions/v2/https');
+exports.api = onRequest({ cors: true, invoker: 'public' }, app);
