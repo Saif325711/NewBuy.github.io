@@ -107,6 +107,26 @@ const updateOrderToPaid = async (req, res) => {
         const order = await Order.findById(req.params.id);
 
         if (order) {
+            // Verify Razorpay Signature if detailed payment info is provided
+            if (req.body.razorpay_payment_id && req.body.razorpay_signature) {
+                const crypto = require('crypto');
+                const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
+
+                // Construct the expected signature: order_id + "|" + payment_id
+                const data = order.paymentResult?.id || req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id;
+
+                // Note: The frontend sends razorpay_order_id, but here we might rely on what's stored or sent.
+                // It's safer if frontend sends razorpay_order_id again or we use the one stored in order if accessible.
+                // However, typical flow: order_id + "|" + payment_id
+                const generated_signature = hmac.update(req.body.razorpay_order_id + "|" + req.body.razorpay_payment_id).digest('hex');
+
+                if (generated_signature !== req.body.razorpay_signature) {
+                    console.error('Razorpay Signature Verification Failed');
+                    return res.status(400).json({ message: 'Payment verification failed' });
+                }
+                console.log('Razorpay Signature Verified');
+            }
+
             order.isPaid = true;
             order.paidAt = Date.now();
             order.paymentResult = {
@@ -114,6 +134,10 @@ const updateOrderToPaid = async (req, res) => {
                 status: req.body.status,
                 update_time: req.body.update_time,
                 email_address: req.body.email_address,
+                // store razorpay details if needed
+                razorpay_payment_id: req.body.razorpay_payment_id,
+                razorpay_order_id: req.body.razorpay_order_id,
+                razorpay_signature: req.body.razorpay_signature
             };
 
             const updatedOrder = await order.save();
