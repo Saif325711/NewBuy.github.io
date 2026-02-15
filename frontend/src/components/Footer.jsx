@@ -128,7 +128,7 @@ const Footer = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="md:flex md:items-center md:justify-between">
                         <div className="text-sm text-gray-400 text-center md:text-left">
-                            © {new Date().getFullYear()} SaiFlex. All rights reserved.
+                            © {new Date().getFullYear()} SaiFlex. All rights reserved. <span className="opacity-50 text-xs ml-2">v1.0.3 (Live)</span>
                         </div>
                         <div className="mt-4 md:mt-0">
                             <ul className="flex justify-center md:justify-end space-x-6 text-sm">

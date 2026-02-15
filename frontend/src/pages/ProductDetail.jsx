@@ -359,6 +359,7 @@ const ProductDetail = () => {
 
                             <div className="flex items-center space-x-4 mb-6">
                                 <span className="text-3xl font-bold">₹{product.price}</span>
+                                <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded border border-green-400">Free Shipping</span>
                                 {/* Placeholder for rating */}
                                 <div className="flex items-center text-yellow-500">
                                     <span>★★★★☆</span>

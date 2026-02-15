@@ -8,7 +8,7 @@ import OrderList from './pages/OrderList';
 import OrderDetails from './pages/OrderDetails';
 import OrderCreate from './pages/OrderCreate';
 import CustomerList from './pages/CustomerList';
-import Settings from './pages/Settings';
+import Settings from './pages/SettingsPage';
 import Invoice from './pages/Invoice';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';

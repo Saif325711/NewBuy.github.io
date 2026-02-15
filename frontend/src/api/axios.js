@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',
+    // Hardcoding the production URL to ensure we hit the live backend
+    baseURL: 'https://us-central1-newbuy.cloudfunctions.net/api',
 });
 
 export default instance;

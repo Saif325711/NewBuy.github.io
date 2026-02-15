@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -21,6 +21,7 @@ import FAQPage from './pages/FAQPage';
 import TermsPage from './pages/TermsPage';
 import { WishlistProvider } from './context/WishlistContext';
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import AdminRoute from './components/AdminRoute';
 
 function AppContent() {
@@ -71,9 +72,9 @@ function App() {
   return (
     <WishlistProvider>
       <AuthProvider>
-        <Router>
+        <CartProvider>
           <AppContent />
-        </Router>
+        </CartProvider>
       </AuthProvider>
     </WishlistProvider>
   );

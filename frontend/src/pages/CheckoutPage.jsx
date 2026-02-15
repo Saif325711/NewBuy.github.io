@@ -1,11 +1,13 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CartContext from '../context/CartContext';
+import SettingsContext from '../context/SettingsContext';
 import { ShieldCheck, CreditCard, Truck, ArrowLeft } from 'lucide-react';
 import axios from '../api/axios';
 
 const CheckoutPage = () => {
     const { cartItems, shippingAddress, saveShippingAddress, clearCart } = useContext(CartContext);
+    const { shippingCharge, freeShippingThreshold } = useContext(SettingsContext);
     const navigate = useNavigate();
 
     // Local state for form if not using context directly for inputs
@@ -18,8 +20,10 @@ const CheckoutPage = () => {
 
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
     const tax = subtotal * 0.18; // Example 18% tax
-    const shippingPrice = subtotal > 1000 ? 0 : 100;
+
+    const shippingPrice = subtotal > freeShippingThreshold ? 0 : Number(shippingCharge);
     const totalPrice = subtotal + tax + shippingPrice;
+
 
     useEffect(() => {
         if (cartItems.length === 0) {

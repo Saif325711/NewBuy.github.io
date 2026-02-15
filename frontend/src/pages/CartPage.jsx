@@ -2,9 +2,11 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import CartContext from '../context/CartContext';
+import SettingsContext from '../context/SettingsContext';
 
 const CartPage = () => {
     const { cartItems, removeFromCart, updateQty } = useContext(CartContext);
+    const { shippingCharge, freeShippingThreshold, loading: settingsLoading } = useContext(SettingsContext);
     const navigate = useNavigate();
 
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
@@ -107,13 +109,15 @@ const CartPage = () => {
                             </div>
                             <div className="flex justify-between text-gray-700">
                                 <span>Shipping</span>
-                                <span className="text-green-400">Free</span>
+                                <span className={subtotal > freeShippingThreshold ? "text-green-400" : ""}>
+                                    {subtotal > freeShippingThreshold ? 'Free' : `₹${shippingCharge}`}
+                                </span>
                             </div>
                         </div>
 
                         <div className="flex justify-between text-xl font-bold text-slate-900 mb-8">
                             <span>Total</span>
-                            <span>₹{subtotal}</span>
+                            <span>₹{subtotal + (subtotal > freeShippingThreshold ? 0 : Number(shippingCharge))}</span>
                         </div>
 
                         <button

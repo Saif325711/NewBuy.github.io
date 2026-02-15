@@ -16,6 +16,11 @@ const ProductCard = ({ product }) => {
                             Out of Stock
                         </div>
                     )}
+                    {product.countInStock > 0 && (
+                        <div className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
+                            Free Shipping
+                        </div>
+                    )}
                 </div>
 
                 <div className="p-4">
